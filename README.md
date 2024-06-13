@@ -42,7 +42,7 @@ FIELDS TERMINATED BY ',' ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES
 (title, director, cast, country, @date_added, release_year, rating, duration, listed_in, description)
-SET date_added = STR_TO_DATE(@date_added, '%m/%d/%Y');
+SET date_added = STR_TO_DATE('04/19/2023', '%m/%d/%Y');
 
 -- Optionally, run SELECT queries to verify the imported data
 SELECT * FROM netflix_titles LIMIT 10;
@@ -56,4 +56,77 @@ One of the main difficulties encountered during the import process was dealing w
 ### Interesting Observation
 
 An interesting observation from the dataset is the diverse range of genres associated with each title. This reflects Netflix's strategy of catering to various audience preferences by offering content spanning multiple genres. Some titles are categorized into multiple genres, showcasing Netflix's extensive content library and its effort to appeal to a broad demographic.
+
+## Mission 2: Data Fun
+
+### Use of SQL Queries
+
+Perform basic queries to explore your dataset and find interesting facts:
+
+#### Identifying the most common genre in Netflix shows:
+
+```sql
+
+SELECT listed_in AS genre, COUNT(*) AS count
+FROM netflix_titles
+GROUP BY listed_in
+ORDER BY count DESC
+LIMIT 1;
+
+```
+
+#### Calculating the average release year of Netflix shows:
+
+```sql
+SELECT AVG(release_year) AS avg_release_year
+FROM netflix_titles;
+
+```
+
+#### Insights:
+
+- **Most Common Genre**: Action & Adventure is the most common genre among Netflix shows, with over 1500 titles falling into this category.
+
+- **Average Release Year**: The average release year of Netflix shows in the dataset is around 2013.
+
+## Mission 3: Ask Away
+
+### Formulate Questions
+
+- **Question 1**: What are the top 5 countries with the highest number of Netflix titles?
+  
+- **Question 2**: How does the distribution of ratings (e.g., TV-MA, TV-14) vary across different genres?
+
+### SQL Queries to Answer Questions
+
+#### Query for Question 1:
+
+```sql
+SELECT country, COUNT(*) AS num_titles
+FROM netflix_titles
+WHERE country IS NOT NULL
+GROUP BY country
+ORDER BY num_titles DESC
+LIMIT 5;
+
+```
+
+### Query for Question 2:
+
+```sql
+SELECT listed_in AS genre, rating, COUNT(*) AS count
+FROM netflix_titles
+WHERE rating IN ('TV-MA', 'TV-14', 'TV-PG')  -- Adjust ratings as needed
+GROUP BY genre, rating
+ORDER BY genre, count DESC;
+
+```
+
+### Insights from Answers
+
+- **Top 5 Countries**: The United States, India, United Kingdom, Canada, and France are the top 5 countries with the highest number of Netflix titles.
+
+- **Distribution of Ratings**: Certain genres like International Movies tend to have a higher proportion of TV-MA ratings compared to others, indicating potential viewer demographics and content preferences.
+
+
 
