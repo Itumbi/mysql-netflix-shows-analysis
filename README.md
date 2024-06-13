@@ -47,6 +47,8 @@ SET date_added = STR_TO_DATE(@date_added, '%m/%d/%Y');
 -- Optionally, run SELECT queries to verify the imported data
 SELECT * FROM netflix_titles LIMIT 10;
 
+```
+
 ### Difficulties Encountered
 
 One of the main difficulties encountered during the import process was dealing with MySQL's `secure-file-priv` option, which restricts the directories from which `LOAD DATA INFILE` can load files. I had to ensure that the CSV file was placed in a directory allowed by this setting (`secure-file-priv`) to execute the import command successfully.
